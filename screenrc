@@ -1,0 +1,18 @@
+# .screenrc
+#
+# Creator:              Andrew Burnheimer
+# Version:              1.0
+# Date Created:         22 May 2007 17:01:30
+# Date Modified:        22 May 2007 17:01:34
+# 
+
+# change the hardstatus settings to give an window list at the bottom of the
+# screen, with the time and date and with the current window highlighted
+
+hardstatus alwayslastline
+hardstatus string '%{= Kw}%-Lw%{= KG}%50>%n%f* %t%{= Kw}%+Lw%< %-=%{= kR} %l %{= kG}%D %d %M %c%{-}'
+
+autodetach on
+
+vbell on
+vbell_msg "bell on %t (%n)"
