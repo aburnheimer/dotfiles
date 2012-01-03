@@ -2,7 +2,6 @@
 
 # Andrew Burnheimer
 # abrhir@email.com
-# 22 Dec 2011
 
 ALT_USER=brhie
 DOMAIN_SUFFIX=work.suffix
@@ -10,15 +9,29 @@ DOMAIN_SUFFIX=work.suffix
 lflag=false
 nflag=false
 
-set -- $(getopt hln "$@")
+usage() {
+  echo "Usage: $0 hostname"
+  echo 
+  echo "  -h     Usage statement"
+  echo "  -l     Return login string for hostname (useful for "
+  echo "         SCP/SFTP pasting)"
+  echo "  -f,-n  Return FQDN string for hostname"
+  echo 
+}
+
+set -- $(getopt fhln "$@")
 while [ $# -gt 0 ]
 do
     case "$1" in
-    (-h|-l)
-      lflag=true
-      ;;
-    (-n)
+    (-f|-n)
       nflag=true
+      ;;
+    (-h)
+      usage
+      exit 0
+      ;;
+    (-l)
+      lflag=true
       ;;
     (--) shift; break;;
     (-*) echo "$0: error - unrecognized option $1" >&2; exit 1;;
