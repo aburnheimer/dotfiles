@@ -1,0 +1,18 @@
+VisualHostKey yes
+
+Host work_git
+HostName work.server
+User abrhir
+IdentityFile id_rsa
+ 
+Host github.com
+User git
+HostName github.com
+PreferredAuthentications publickey
+IdentityFile id_rsa-abrhir@email.com
+
+Host heroku.com
+User git
+Hostname heroku.com
+PreferredAuthentications publickey
+IdentityFile id_rsa-abrhir@email.com
