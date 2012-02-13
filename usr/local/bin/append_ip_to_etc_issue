@@ -1,0 +1,34 @@
+#!/bin/sh
+#                                                                                                                                                                                                                 
+# append_ip_to_etc_issue
+#
+# chkconfig: 2345 11 89
+# description: Adds a tag to the /etc/issue file to show the active IP 
+#     addresses on the console login prompt
+#
+
+iface=eth0 
+net_addr_header="- Network addresses (updated daily) -"
+
+case "$1" in                                                                                                                                                                                                      
+  start)                                                                                                                                                                                                          
+    addrs=`/sbin/ip addr show eth0 | grep inet | sed -e 's/ \+inet6\? \([0-9a-f.:/]\+\).*/\1/'`
+    net_addr_line=`grep -n -- "${net_addr_header}" /etc/issue | cut -d: -f1`
+
+    if [ ${net_addr_line} > 0 ]; then
+      head -n $(( $net_addr_line - 1 )) /etc/issue > /tmp/issue
+    else 
+      cat /etc/issue > /tmp/issue
+    fi
+
+    echo $net_addr_header >> /tmp/issue
+    echo -e $addrs >> /tmp/issue
+
+    mv /tmp/issue /etc/issue
+    ;;
+  stop)                                                                                                                                                                                                          
+    ;;
+  *)
+    echo $"Usage: $0 {start|stop}"                                                                                                                                                      
+    exit 1
+esac
