@@ -6,7 +6,11 @@ ZSH=$HOME/.oh-my-zsh
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
 #ZSH_THEME="robbyrussell"
-ZSH_THEME="random"
+#ZSH_THEME="dogenpunk" # 2-line, hindi text, complex status, commit time 
+#ZSH_THEME="fishy" # complex status, user@host, no time
+#ZSH_THEME="nicoulaj" # tight, complex status, snazzy repo detection
+#ZSH_THEME="sorin" # Very tight (complex status, no time)
+ZSH_THEME="aburnheimer" # Based on sorin, plus git git-time-since-commit
 
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
