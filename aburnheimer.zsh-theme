@@ -8,21 +8,21 @@
 # ------------------------------------------------------------------------------
 
 # Customizable parameters.
-PROMPT_PATH_MAX_LENGTH=30
+PROMPT_PATH_MAX_LENGTH=20
 
 if [[ "$TERM" != "dumb" ]] && [[ "$DISABLE_LS_COLORS" != "true" ]]; then
   MODE_INDICATOR="%{$fg_bold[red]%}❮%{$reset_color%}%{$fg[red]%}❮❮%{$reset_color%}"
   local return_status="%{$fg[red]%}%(?..⏎ %?)%{$reset_color%}"
   
   #PROMPT='%{$fg[cyan]%}%c$(git_prompt_info) %(!.%{$fg_bold[red]%}#.%{$fg_bold[green]%}❯)%{$reset_color%} '
-  PROMPT='%{$fg[cyan]%}%$PROMPT_PATH_MAX_LENGTH<..<%/%<<$(git_prompt_info) %(!.%{$fg_bold[red]%}#.%{$fg_bold[green]%}❯)%{$reset_color%} '
+  PROMPT='%{$fg[cyan]%}%$PROMPT_PATH_MAX_LENGTH<..<%/%<<$(svn_prompt_info)$(git_prompt_info) %(!.%{$fg_bold[red]%}#.%{$fg_bold[green]%}❯)%{$reset_color%} '
 
   ZSH_THEME_GIT_PROMPT_PREFIX=" %{$fg[blue]%}git%{$reset_color%}:%{$fg[red]%}"
   ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
   ZSH_THEME_GIT_PROMPT_DIRTY=""
   ZSH_THEME_GIT_PROMPT_CLEAN=""
 
-  RPROMPT='${return_status}$(git_time_since_commit)$(git_prompt_status)%{$reset_color%}'
+  RPROMPT='${return_status} $(rbenv_prompt_info) $(git_time_since_commit)$(git_prompt_status)%{$reset_color%}'
 
   ZSH_THEME_GIT_PROMPT_ADDED="%{$fg[green]%} ✚"
   ZSH_THEME_GIT_PROMPT_MODIFIED="%{$fg[blue]%} ✹"
@@ -36,6 +36,12 @@ if [[ "$TERM" != "dumb" ]] && [[ "$DISABLE_LS_COLORS" != "true" ]]; then
   ZSH_THEME_GIT_TIME_SHORT_COMMIT_MEDIUM="%{$fg[yellow]%}"
   ZSH_THEME_GIT_TIME_SINCE_COMMIT_LONG="%{$fg[red]%}"
   ZSH_THEME_GIT_TIME_SINCE_COMMIT_NEUTRAL="%{$fg[cyan]%}"
+
+  ZSH_THEME_SVN_PROMPT_PREFIX=" %{$fg[blue]%}svn%{$reset_color%}:%{$fg[red]%}"
+  ZSH_THEME_SVN_PROMPT_SUFFIX="%{$reset_color%}"
+  ZSH_THEME_REPO_NAME_COLOR="%{$fg[cyan]%}"
+  ZSH_THEME_SVN_PROMPT_DIRTY="%{$fg[red]%}✖"
+  ZSH_THEME_SVN_PROMPT_CLEAN=""
 
   # Determine the time since last commit. If branch is clean,
   # use a neutral color, otherwise colors will vary according to time.
@@ -71,7 +77,7 @@ if [[ "$TERM" != "dumb" ]] && [[ "$DISABLE_LS_COLORS" != "true" ]]; then
               fi
 
               if [ "$HOURS" -gt 24 ]; then
-                  echo "[$COLOR${DAYS}d${SUB_HOURS}h${SUB_MINUTES}m%{$reset_color%}]"
+                  echo "[$COLOR${DAYS}d${SUB_HOURS}h%{$reset_color%}]"
               elif [ "$MINUTES" -gt 60 ]; then
                   echo "[$COLOR${HOURS}h${SUB_MINUTES}m%{$reset_color%}]"
               else
@@ -95,7 +101,7 @@ else
   ZSH_THEME_GIT_PROMPT_DIRTY=""
   ZSH_THEME_GIT_PROMPT_CLEAN=""
 
-  RPROMPT='${return_status}$(git_prompt_status)'
+  RPROMPT="${return_status} $(rbenv_prompt_info) $(git_prompt_status)"
 
   ZSH_THEME_GIT_PROMPT_ADDED=" ✚"
   ZSH_THEME_GIT_PROMPT_MODIFIED=" ✹"
@@ -103,4 +109,10 @@ else
   ZSH_THEME_GIT_PROMPT_RENAMED=" ➜"
   ZSH_THEME_GIT_PROMPT_UNMERGED=" ═"
   ZSH_THEME_GIT_PROMPT_UNTRACKED=" ✭"
+
+  ZSH_THEME_SVN_PROMPT_PREFIX=" svn:"
+  ZSH_THEME_SVN_PROMPT_SUFFIX=""
+  ZSH_THEME_REPO_NAME_COLOR=""
+  ZSH_THEME_SVN_PROMPT_DIRTY=" ✖"
+  ZSH_THEME_SVN_PROMPT_CLEAN=""
 fi
