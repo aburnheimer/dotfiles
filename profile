@@ -58,7 +58,7 @@ if [ "$TERM" != "dumb" ]; then
 	fi
 
 	if [[ `uname -s` == "CYGWIN_NT-5.1" ]]; then
-		PS1='\[\033[01;32m\]\u@\h \[\033[01;34m\]\W \$ \[\033[00m\]'
+		#PS1='\[\033[01;32m\]\u@\h \[\033[01;34m\]\W \$ \[\033[00m\]'
 		#PS1='<\A> [\u@\h \W]\$ '
 		# colors for ls, etc.  Prefer ~/.dir_colors #64489
 		if [[ -f ~/.dir_colors ]]; then
@@ -77,7 +77,7 @@ if [ "$TERM" != "dumb" ]; then
 	fi
 
 	if [[ `uname -s` == "Darwin" ]]; then
-		PS1='<\A> [\u@\h \W]\$ '
+		#PS1='<\A> [\u@\h \W]\$ '
 		alias ls="ls -GF "
 		alias sl="ls"
 		alias du="du -hc"
@@ -90,7 +90,7 @@ if [ "$TERM" != "dumb" ]; then
 	fi
 
 	if [[ `uname -s` == "SunOS" ]]; then
-		PS1="[`echo $USER`@`echo $HOST`]$ "
+		#PS1="[`echo $USER`@`echo $HOST`]$ "
 		alias ls="ls -F "
 		alias sl="ls"
 		alias du="du -ho"
@@ -101,7 +101,7 @@ fi
 
 # Change the window title of X terminals 
 # set a fancy prompt (non-color, unless we know we "want" color)
-if [[ $SHELL == "zsh" ]]; then
+if [[ "$SHELL" != *zsh ]]; then
 	case "$TERM" in
 	xterm-color)
 		PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
@@ -137,6 +137,10 @@ if [ `which colordiff` ]; then
 	alias diff='colordiff'
 fi
 
+if [ -f $HOME/.rbenv ]; then
+	PATH=$HOME/.rbenv/bin:$PATH
+fi
+
 alias ssh='ssh -YA'
 
 EDITOR=vim
@@ -147,15 +151,18 @@ HISTSIZE=4000
 
 export PATH PS1 SVN_EDITOR HISTFILESIZE HISTSIZE
 
-# uncomment the following to activate bash-completion:
-# enable programmable completion features (you don't need to enable
-# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
-# sources /etc/bash.bashrc).
-if [ -f /etc/bash_completion ]; then
+if [ -f /opt/local/etc/profile.d/autojump.sh ]; then
+	if [[ "$SHELL" == *zsh ]]; then
+		export FPATH="$FPATH:/opt/local/share/zsh/site-functions/"
+	fi
+	. /opt/local/etc/profile.d/autojump.sh
+fi
+
+if [ -f /etc/bash_completion ] && [[ "$SHELL" == *bash ]]; then
 	. /etc/bash_completion
 fi
 
-if [ -f /opt/local/etc/bash_completion ]; then
+if [ -f /opt/local/etc/bash_completion ] && [[ "$SHELL" == *bash ]]; then
 	. /opt/local/etc/bash_completion
 fi
 
