@@ -24,12 +24,12 @@ if [[ "$TERM" != "dumb" ]] && [[ "$DISABLE_LS_COLORS" != "true" ]]; then
 
   RPROMPT='${return_status} $(rbenv_prompt_info) $(git_time_since_commit)$(git_prompt_status)%{$reset_color%}'
 
-  ZSH_THEME_GIT_PROMPT_ADDED="%{$fg[green]%} ✚"
-  ZSH_THEME_GIT_PROMPT_MODIFIED="%{$fg[blue]%} ✹"
-  ZSH_THEME_GIT_PROMPT_DELETED="%{$fg[red]%} ✖"
-  ZSH_THEME_GIT_PROMPT_RENAMED="%{$fg[magenta]%} ➜"
-  ZSH_THEME_GIT_PROMPT_UNMERGED="%{$fg[yellow]%} ═"
-  ZSH_THEME_GIT_PROMPT_UNTRACKED="%{$fg[cyan]%} ✭"
+  ZSH_THEME_GIT_PROMPT_ADDED="%{$fg[green]%}✚"
+  ZSH_THEME_GIT_PROMPT_MODIFIED="%{$fg[blue]%}✹"
+  ZSH_THEME_GIT_PROMPT_DELETED="%{$fg[red]%}✖"
+  ZSH_THEME_GIT_PROMPT_RENAMED="%{$fg[magenta]%}➜"
+  ZSH_THEME_GIT_PROMPT_UNMERGED="%{$fg[yellow]%}═"
+  ZSH_THEME_GIT_PROMPT_UNTRACKED="%{$fg[cyan]%}✭"
 
   # Colors vary depending on time lapsed.
   ZSH_THEME_GIT_TIME_SINCE_COMMIT_SHORT="%{$fg[green]%}"
@@ -103,12 +103,12 @@ else
 
   RPROMPT="${return_status} $(rbenv_prompt_info) $(git_prompt_status)"
 
-  ZSH_THEME_GIT_PROMPT_ADDED=" ✚"
-  ZSH_THEME_GIT_PROMPT_MODIFIED=" ✹"
-  ZSH_THEME_GIT_PROMPT_DELETED=" ✖"
-  ZSH_THEME_GIT_PROMPT_RENAMED=" ➜"
-  ZSH_THEME_GIT_PROMPT_UNMERGED=" ═"
-  ZSH_THEME_GIT_PROMPT_UNTRACKED=" ✭"
+  ZSH_THEME_GIT_PROMPT_ADDED="✚"
+  ZSH_THEME_GIT_PROMPT_MODIFIED="✹"
+  ZSH_THEME_GIT_PROMPT_DELETED="✖"
+  ZSH_THEME_GIT_PROMPT_RENAMED="➜"
+  ZSH_THEME_GIT_PROMPT_UNMERGED="═"
+  ZSH_THEME_GIT_PROMPT_UNTRACKED="✭"
 
   ZSH_THEME_SVN_PROMPT_PREFIX=" svn:"
   ZSH_THEME_SVN_PROMPT_SUFFIX=""
