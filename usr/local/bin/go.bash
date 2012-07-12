@@ -12,6 +12,7 @@ nflag=false
 usage() {
   echo "Usage: $0 hostname"
   echo 
+  echo "  -d     Log in with DT xdeploy credential"
   echo "  -h     Usage statement"
   echo "  -l     Return login string for hostname (useful for "
   echo "         SCP/SFTP pasting)"
@@ -19,10 +20,13 @@ usage() {
   echo 
 }
 
-set -- $(getopt fhln "$@")
+set -- $(getopt dfhln "$@")
 while [ $# -gt 0 ]
 do
     case "$1" in
+    (-d)
+      dflag=true
+      ;;
     (-f|-n)
       nflag=true
       ;;
@@ -75,6 +79,15 @@ else # REGEX error handling
   esac
 fi
 
+sshopts=""
+
+if [[ $dflag == true ]]; then
+  sshopts="$sshopts -i /Users/aburnh000/.ssh/id_dsa-dt-xdeploy"
+  user="xdeploy"
+fi
+
+sshopts="$sshopts -l $user"
+
 if [[ $lflag == true ]]; then
   echo $user@$host.$data_center.$DOMAIN_SUFFIX
 
@@ -82,7 +95,7 @@ elif [[ $nflag == true ]]; then
   echo $host.$data_center.$DOMAIN_SUFFIX
 
 else # Most often
-  ssh -l $user $host.$data_center.$DOMAIN_SUFFIX
+  ssh $sshopts $host.$data_center.$DOMAIN_SUFFIX
 fi
 
 
