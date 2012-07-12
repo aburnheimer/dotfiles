@@ -45,7 +45,7 @@ do
 done
 
 #           ccp  c  a  p-  p  o    -   c     0       0  1-        p     -    1
-HOST_MATCH="^ccp[a-z]{3}-([a-z]{2})-[a-z][a-z0-9][0-9]{2}-(d|q|qi|i|s|p)(-[0-9])?$"
+HOST_MATCH="^ccp[a-z]{2,3}-([a-z]{2})-[a-z][a-z0-9][0-9]{2}-(d|q|qi|i|s|p)(-[0-9])?$"
 host=$1
 
 if [[ $host =~ $HOST_MATCH ]]; then
