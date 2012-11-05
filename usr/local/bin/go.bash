@@ -44,13 +44,21 @@ do
     shift
 done
 
-#           ccp  c  a  p-  p  o    -   c     0       0  1-        p     -    1
-HOST_MATCH="^ccp[a-z]{2,3}-([a-z]{2})-[a-z][a-z0-9][0-9]{2}-(d|q|qi|i|s|p)(-[0-9])?$"
+#              ccp    c  a  p-  p  o    -   c     0       0  1-        p     -    1
+HOST_MATCH="^(ccp)?[a-z]{2,3}-([a-z]{2})-[a-z0-9]{0,4}(-)?(d|q|qi|i|s|p|e)(-[0-9])?$"
 host=$1
 
 if [[ $host =~ $HOST_MATCH ]]; then
-  data_center=${BASH_REMATCH[1]}
+  data_center=${BASH_REMATCH[2]}
   case $data_center in
+  br)
+    if [ -z ${BASH_REMATCH[1]} ]; then
+      data_center="idk"
+      user=$ALT_USER
+    else
+      user=$(whoami)
+    fi
+    ;;
   dt|ra)
     user=$ALT_USER
     ;;
@@ -87,6 +95,10 @@ if [[ $dflag == true ]]; then
 fi
 
 sshopts="$sshopts -l $user"
+
+if [[ $data_center == "idk" ]]; then
+  DOMAIN_SUFFIX=cable.comcast.com
+fi
 
 if [[ $lflag == true ]]; then
   echo $user@$host.$data_center.$DOMAIN_SUFFIX
