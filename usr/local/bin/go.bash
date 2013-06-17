@@ -6,8 +6,11 @@
 ALT_USER=brhie
 DOMAIN_SUFFIX=work.suffix
 
-lflag=false
+dflag=false
 nflag=false
+lflag=false
+pflag=false
+uflag=false
 
 usage() {
   echo "Usage: $0 hostname"
@@ -18,10 +21,11 @@ usage() {
   echo "         SCP/SFTP pasting)"
   echo "  -p     Log in with PO xdeploy credential"
   echo "  -f,-n  Return FQDN string for hostname"
+  echo "  -u     Log in to host with uid hostname"
   echo 
 }
 
-set -- $(getopt dfhlnp "$@")
+set -- $(getopt dfhlnpu "$@")
 while [ $# -gt 0 ]
 do
     case "$1" in
@@ -41,6 +45,9 @@ do
     (-p)
       pflag=true
       ;;
+    (-u)
+      uflag=true
+      ;;
     (--) shift; break;;
     (-*) echo "$0: error - unrecognized option $1" >&2; exit 1;;
     (*)  break;;
@@ -48,12 +55,24 @@ do
     shift
 done
 
-#              ccp    c  a  p-  p  o    -   c     0       0  1-        p     -    1
-HOST_MATCH="^(ccp)?[a-z]{2,3}-([a-z]{2})-[a-z0-9]{0,5}(-)?(d|q|qi|i|s|p|e)(-[0-9])?$"
+if [[ $uflag == true ]]; then
+  #            vm-  32xvul9u    .dt
+  HOST_MATCH="^vm-([0-9a-z]{8})\.([a-z]{2})$"
+else
+  #              ccp    c  a  p-  p  o    -   c     0       0  1-        p     -    1
+  HOST_MATCH="^(ccp)?[a-z]{2,3}-([a-z]{2})-[a-z0-9]{0,5}(-)?(d|q|qi|i|s|p|e)(-[0-9])?$"
+fi
+
 host=$1
 
 if [[ $host =~ $HOST_MATCH ]]; then
   data_center=${BASH_REMATCH[2]}
+
+  if [[ $uflag == true ]]; then
+    #            vm-  32xvul9u    .dt
+    host="vm-${BASH_REMATCH[1]}"
+  fi
+
   case $data_center in
   br)
     if [ -z ${BASH_REMATCH[1]} ]; then
@@ -105,7 +124,7 @@ fi
 sshopts="$sshopts -l $user"
 
 if [[ $data_center == "idk" ]]; then
-  DOMAIN_SUFFIX=cable.comcast.com
+  DOMAIN_SUFFIX=work.suffix
 fi
 
 if [[ $lflag == true ]]; then
