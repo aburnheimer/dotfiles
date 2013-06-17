@@ -16,11 +16,12 @@ usage() {
   echo "  -h     Usage statement"
   echo "  -l     Return login string for hostname (useful for "
   echo "         SCP/SFTP pasting)"
+  echo "  -p     Log in with PO xdeploy credential"
   echo "  -f,-n  Return FQDN string for hostname"
   echo 
 }
 
-set -- $(getopt dfhln "$@")
+set -- $(getopt dfhlnp "$@")
 while [ $# -gt 0 ]
 do
     case "$1" in
@@ -37,6 +38,9 @@ do
     (-l)
       lflag=true
       ;;
+    (-p)
+      pflag=true
+      ;;
     (--) shift; break;;
     (-*) echo "$0: error - unrecognized option $1" >&2; exit 1;;
     (*)  break;;
@@ -45,7 +49,7 @@ do
 done
 
 #              ccp    c  a  p-  p  o    -   c     0       0  1-        p     -    1
-HOST_MATCH="^(ccp)?[a-z]{2,3}-([a-z]{2})-[a-z0-9]{0,4}(-)?(d|q|qi|i|s|p|e)(-[0-9])?$"
+HOST_MATCH="^(ccp)?[a-z]{2,3}-([a-z]{2})-[a-z0-9]{0,5}(-)?(d|q|qi|i|s|p|e)(-[0-9])?$"
 host=$1
 
 if [[ $host =~ $HOST_MATCH ]]; then
@@ -89,9 +93,13 @@ fi
 
 sshopts=""
 
-if [[ $dflag == true ]]; then
-  sshopts="$sshopts -i /Users/aburnh000/.ssh/id_dsa-dt-xdeploy"
+if [[ $dflag == true ]] || [[ $pflag == true ]] ; then
   user="xdeploy"
+  if [[ $pflag == true ]]; then
+    sshopts="$sshopts -i /Users/aburnh000/.ssh/id_dsa-po-xdeploy"
+  else
+    sshopts="$sshopts -i /Users/aburnh000/.ssh/id_dsa-dt-xdeploy"
+  fi
 fi
 
 sshopts="$sshopts -l $user"
